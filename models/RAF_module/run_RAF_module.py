@@ -1,19 +1,30 @@
 # Run RAF module using different initial conditions
 # for Ras and Vemurafenib levels
+from pysb import *
 
-from BRAF_module import model
+Model()
+
+import BRAF_module
+BRAF_module.monomers()
+BRAF_module.BRAF_dynamics()
+BRAF_module.observables()
+
+# from ERK_phosphorylation import by_BRAF_wt
 import numpy as np
 from pysb.integrate import Solver
+
 
 Ras_range = 2 * np.logspace(0, 3, num=20)
 Vemurafenib_range = 2 * np.logspace(0, 3, num=40)
 
 RAF_WT_level = []
 RAF_V600E_level = []
+ERK_P_level = []
 
 for r in Ras_range:
     wt_holder_row = []
     v600e_holder_row = []
+    # erk_holder_row = []
     for v in Vemurafenib_range:
 
         model.parameters['KRAS_0'].value = r
@@ -25,13 +36,15 @@ for r in Ras_range:
 
         wt_holder_row.append(solver.yobs['BRAF_WT_active'][-1])
         v600e_holder_row.append(solver.yobs['BRAF_V600E_active'][-1])
+        # erk_holder_row.append(solver.yobs['ERK_P'][-1])
 
     RAF_WT_level.append(wt_holder_row)
     RAF_V600E_level.append(v600e_holder_row)
+    # ERK_P_level.append(erk_holder_row)
 
 wt = np.array(RAF_WT_level, dtype='float')
 v600e = np.array(RAF_V600E_level, dtype='float')
-
+# erkp = np.array(ERK_P_level, dtype='float')
 
 # Plots
 # -----
