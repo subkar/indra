@@ -11,7 +11,8 @@ BRAF_module.observables()
 
 import ERK_phosphorylation
 ERK_phosphorylation.monomers()
-ERK_phosphorylation.by_BRAF_wt()
+ERK_phosphorylation.by_BRAF_mut()
+ERK_phosphorylation.DUSP_phospatase()
 ERK_phosphorylation.declare_observables()
 
 # from ERK_phosphorylation import by_BRAF_wt
@@ -57,17 +58,17 @@ import matplotlib.pyplot as plt
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
 
-wt_c = ax1.pcolor(Vemurafenib_range, Ras_range, wt, vmin=0)
-# mut_c = ax2.pcolor(Vemurafenib_range, Ras_range, v600e, vmin=0, vmax=1000)
+# wt_c = ax1.pcolor(Vemurafenib_range, Ras_range, wt, vmin=0)
+mut_c = ax1.pcolor(Vemurafenib_range, Ras_range, v600e, vmin=0)
 erk_p = ax2.pcolor(Vemurafenib_range, Ras_range, erkp, vmin=0)
 
 ax1.set_xlabel('Vemurafenib')
 ax2.set_xlabel('Vemurafenib')
 ax1.set_ylabel('Ras')
-ax1.set_title('BRAF_WT')
+ax1.set_title('BRAF_V600E')
 ax2.set_title('ERK_P')
 
-plt.colorbar(wt_c, ax=ax1)
+plt.colorbar(mut_c, ax=ax1)
 plt.colorbar(erk_p, ax=ax2)
 
 plt.show()
