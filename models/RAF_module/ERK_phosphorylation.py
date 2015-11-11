@@ -7,13 +7,16 @@ from pysb.util import alias_model_components
 
 def monomers():
     Monomer('ERK', ['s', 'state'], {'state': ['up', 'p']})
+    Monomer('DUSP', ['erk'])
 
     Parameter('ERK_0', 1e3)
+    Parameter('DUSP_0', 1e2)
 
     alias_model_components()
 
     Initial(ERK(s=None, state='up'), ERK_0)
-
+    Initial(DUSP(erk=None), DUSP_0)
+    
 
 def by_BRAF_wt():
 
@@ -56,11 +59,23 @@ def by_CRAF():
     Rule('CRAF_binds_ERK',
          CRAF(d=1, vem=None, erk=None) % CRAF(d=1) + ERK(s=None, state='up') <>
          ERK(s=2, state='up') % CRAF(d=1, vem=None, erk=2) % CRAF(d=1),
-         k_bwf, k_bwr)
+         k_cwf, k_cwr)
 
     Rule('CRAF_activates_ERK',
          CRAF(d=ANY, vem=None, erk=1) % ERK(s=1, state='up') >>
-         CRAF(d=ANY, vem=None, erk=None) + ERK(s=None, state='p'), k_bwe) 
+         CRAF(d=ANY, vem=None, erk=None) + ERK(s=None, state='p'), k_cwe)
+
+
+def DUSP_phospatase():
+
+    Parameter('k_dspf', 1)
+    Parameter('k_dspr', 0.1)
+    Parameter('k_dspe', 1)
+
+    alias_model_components()
+
+    catalyze_state(DUSP(), 'erk', ERK(), 's', 'state', 'p', 'up',
+                   (k_dspf, k_dspr, k_dspe))
 
 
 def declare_observables():
