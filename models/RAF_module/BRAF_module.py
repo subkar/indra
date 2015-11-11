@@ -4,7 +4,7 @@ from pysb.util import alias_model_components
 
 
 def monomers():
-    Monomer('BRAF', ['ras', 'd', 'vem'])
+    Monomer('BRAF', ['ras', 'd', 'vem', 'erk'])
     Monomer('KRAS', ['raf'])
     Monomer('Vem', ['raf'])
 
@@ -18,7 +18,7 @@ def monomers():
     
     # Initial conditions
     # ------------------
-    Initial(BRAF(d=None, ras=None, vem=None), BRAF_0)
+    Initial(BRAF(d=None, ras=None, erk=None, vem=None), BRAF_0)
     Initial(KRAS(raf=None), KRAS_0)
     Initial(Vem(raf=None), Vem_0)
 
