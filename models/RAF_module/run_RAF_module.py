@@ -1,7 +1,7 @@
 # Run RAF module using different initial conditions
 # for Ras and Vemurafenib levels
 
-from RAF_module import model
+from BRAF_module import model
 import numpy as np
 from pysb.integrate import Solver
 
@@ -16,7 +16,7 @@ for r in Ras_range:
     v600e_holder_row = []
     for v in Vemurafenib_range:
 
-        model.parameters['Ras_0'].value = r
+        model.parameters['KRAS_0'].value = r
         model.parameters['Vem_0'].value = v
 
         ts = np.linspace(0, 100, 100)
