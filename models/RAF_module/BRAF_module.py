@@ -96,17 +96,17 @@ Observable('BRAF_WT_active',
 Observable('BRAF_V600E_active',
            BRAF(vem=None)) 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 
-#     from pysb.integrate import Solver
-#     import matplotlib.pyplot as plt
-#     import numpy as np
-#     ts = np.linspace(0, 100, 100)
-#     solver = Solver(model, ts)
-#     solver.run()
+    from pysb.integrate import Solver
+    import matplotlib.pyplot as plt
+    import numpy as np
+    ts = np.linspace(0, 100, 100)
+    solver = Solver(model, ts)
+    solver.run()
 
-#     plt.figure()
-#     plt.plot(ts, solver.yobs['BRAF_WT_active'], label='WT')
-#     plt.plot(ts, solver.yobs['BRAF_V600E_active'], label='V600E')
-#     plt.legend()
-#     plt.show()
+    # plt.figure()
+    # plt.plot(ts, solver.yobs['BRAF_WT_active'], label='WT')
+    # plt.plot(ts, solver.yobs['BRAF_V600E_active'], label='V600E')
+    # plt.legend()
+    # plt.show()
