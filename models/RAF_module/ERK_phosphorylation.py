@@ -49,3 +49,9 @@ def by_CRAF():
 
     catalyze_state(CRAF(d=1, vem=None), 'erk', ERK(), 's',
                    'state', 'up', 'p', (k_cwf, k_cwr, k_cwe))
+
+
+def declare_observables():
+    alias_model_components()
+
+    Observable('ERK_P', ERK(state='p'))    
