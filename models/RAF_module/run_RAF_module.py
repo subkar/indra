@@ -19,9 +19,8 @@ ERK_phosphorylation.declare_observables()
 import numpy as np
 from pysb.integrate import Solver
 
-
-Ras_range = 2 * np.logspace(0, 3, num=20)
-Vemurafenib_range = 2 * np.logspace(0, 3, num=40)
+Ras_range = 2 * np.linspace(0, 1000, num=20)
+Vemurafenib_range = 2 * np.linspace(0, 1000, num=40)
 
 RAF_WT_level = []
 RAF_V600E_level = []
