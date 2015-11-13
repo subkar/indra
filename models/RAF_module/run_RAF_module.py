@@ -4,10 +4,11 @@ from pysb import *
 
 Model()
 
-import BRAF_module
+# import BRAF_module
+import BRAF_module_6rules as BRAF_module
 BRAF_module.monomers()
 BRAF_module.BRAF_dynamics()
-BRAF_module.observables()
+BRAF_module.declare_observables()
 
 import ERK_phosphorylation
 ERK_phosphorylation.monomers()
