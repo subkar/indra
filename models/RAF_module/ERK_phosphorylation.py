@@ -9,7 +9,7 @@ def monomers():
     Monomer('ERK', ['s', 'state'], {'state': ['up', 'p']})
     Monomer('DUSP', ['erk'])
 
-    Parameter('ERK_0', 1e3)
+    Parameter('ERK_0', 1e2)
     Parameter('DUSP_0', 1e2)
 
     alias_model_components()
