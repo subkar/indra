@@ -35,7 +35,7 @@ for r in Ras_range:
         model.parameters['KRAS_0'].value = r
         model.parameters['Vem_0'].value = v
 
-        ts = np.linspace(0, 100, 100)
+        ts = np.linspace(0, 1e5, 100)
         solver = Solver(model, ts)
         solver.run()
 
