@@ -4,8 +4,8 @@ from pysb import *
 
 Model()
 
-# import BRAF_module
-import BRAF_module_6rules as BRAF_module
+import BRAF_module
+# import BRAF_module_6rules as BRAF_module
 BRAF_module.monomers()
 BRAF_module.BRAF_dynamics()
 BRAF_module.declare_observables()
@@ -20,8 +20,8 @@ ERK_phosphorylation.declare_observables()
 import numpy as np
 from pysb.integrate import Solver
 
-Ras_range = 2 * np.linspace(0, 1000, num=20)
-Vemurafenib_range = 2 * np.linspace(0, 1000, num=40)
+Ras_range = 2 * np.linspace(0, 1e5, num=10)
+Vemurafenib_range = 2 * np.linspace(0, 1e5, num=10)
 
 RAF_WT_level = []
 RAF_V600E_level = []
