@@ -9,8 +9,8 @@ def monomers():
     Monomer('ERK', ['s', 'state'], {'state': ['up', 'p']})
     Monomer('DUSP', ['erk'])
 
-    Parameter('ERK_0', 1e2)
-    Parameter('DUSP_0', 1e2)
+    Parameter('ERK_0', 1e5)
+    Parameter('DUSP_0', 1e3)
 
     alias_model_components()
 
@@ -69,8 +69,8 @@ def by_CRAF():
 def DUSP_phospatase():
 
     Parameter('k_dspf', 1)
-    Parameter('k_dspr', 0.1)
-    Parameter('k_dspe', 1)
+    Parameter('k_dspr', 0.001)
+    Parameter('k_dspe', 50)
 
     alias_model_components()
 
