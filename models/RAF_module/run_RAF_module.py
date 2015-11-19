@@ -64,11 +64,11 @@ erk_p = ax2.pcolor(Vemurafenib_range, Ras_range, erkp, vmin=0)
 
 ax1.set_xlabel('Vemurafenib')
 ax2.set_xlabel('Vemurafenib')
-ax1.set_ylabel('Ras')
+ax1.set_ylabel('KRAS')
 ax1.set_title('BRAF_V600E')
 ax2.set_title('ERK_P')
 
-plt.colorbar(mut_c, ax=ax1)
-plt.colorbar(erk_p, ax=ax2)
+plt.colorbar(mut_c, ax=ax1, cmap='spectral')
+plt.colorbar(erk_p, ax=ax2, cmap='spectral')
 
 plt.show()
