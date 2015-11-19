@@ -1,6 +1,5 @@
 KRAS binds BRAF.
-BRAF binds BRAF not bound to KRAS.
+BRAF, that is not bound to KRAS, binds BRAF.
 The BRAF-KRAS complex binds another BRAF-KRAS complex.
-BRAF, not bound to BRAF, binds Vemurafenib.
+Vemurafenib binds BRAF that is not bound to BRAF
 The BRAF-BRAF complex binds Vemurafenib.
-BRAF, not bound to Vemurafenib, activates ERK
