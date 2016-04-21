@@ -41,7 +41,8 @@ def enumerate_rule(model, rule):
 
     for i, r in enumerate(reactant_names):
         for j in model.monomers[r].sites:
-            if j not in [c.lower() for ind, c in reactant_names if ind != i]:
+            if j not in [c.lower()
+                         for ind, c in enumerate(reactant_names) if ind != i]:
                 sites.append(str(i) + '_' + j)
               
     conds = [None, ANY]
@@ -71,13 +72,15 @@ def enumerate_rule(model, rule):
             products[rxn_ind] = products[rxn_ind](
                 **{site_name: combinations[c][s]})
             name_string.append(site_name + str(combinations[c][s]))
-            if combinations[c][s] is not None:
-                rate_string.append(site_name[0])
+            # if combinations[c][s] is not None:
+            rate_string.append(site_name[0] + str(combinations[c][s])[0])
         rule_copy.name = rule_copy.name + '_' + '_'.join(name_string)
         rule_copy.rate_forward.name = rule_copy.rate_forward.name +\
                                       '_' + ''.join(rate_string)
+        
         if c != 2**len(sites) - 1:
             # rule_copy.rename(rule_copy.name)
             model.add_component(rule_copy)
+            model.parameters.add(rule_copy.rate_forward)
 
     return model
