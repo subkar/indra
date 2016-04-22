@@ -1,4 +1,4 @@
-from pysb import ANY
+from pysb import ANY, Parameter
 import re
 import itertools as it
 import copy
@@ -24,7 +24,7 @@ def get_products(rule):
     return products
 
 
-def enumerate_rule(model, rule):
+def enumerate_rules(model, rule):
     ''' Given a rule, generate rules for all possible combinations, 
     taking into account the binding sites and occupancy for each
     participating monomer in the rule. '''
@@ -34,17 +34,17 @@ def enumerate_rule(model, rule):
 
     # sites should be a list of all monomer_binding sites pairs, other
     # than those involved in the binding reaction.
-    # Since participating monomers may be identica,(for example in
+    # Since participating monomers may be identical,(for example in
     # the case of homodimer formation, the monomers are idenitified
     # simply by numbers.
     sites = []
 
-    for r, i in enumerate(reactant_names):
-        for j in model.monomers[i].sites:
-            if j not in [c.lower() for c in reactant_names]:
-                sites.append(str(r) + '_' + j)
-
-                
+    for i, r in enumerate(reactant_names):
+        for j in model.monomers[r].sites:
+            if j not in [c.lower()
+                         for ind, c in enumerate(reactant_names) if ind != i]:
+                sites.append(str(i) + '_' + j)
+              
     conds = [None, ANY]
 
     site_variants = {i: conds for i in sites}
@@ -55,10 +55,10 @@ def enumerate_rule(model, rule):
 
     # Copy original rule and specify occupancy of binding
     # sites (None or ANY) that do not pariticpate in the binding reaction
-    for c in range(len(sites)**2):
-        if c <= len(sites)**2 - 2:
+    for c in range(2**len(sites)):
+        if c < 2**len(sites) - 1:
             rule_copy = copy.deepcopy(rule)
-        elif c == len(sites)**2 - 1:
+        elif c == 2**len(sites) - 1:
             rule_copy = rule
         reactants = get_reactants(rule_copy)
         products = get_products(rule_copy)
@@ -72,13 +72,15 @@ def enumerate_rule(model, rule):
             products[rxn_ind] = products[rxn_ind](
                 **{site_name: combinations[c][s]})
             name_string.append(site_name + str(combinations[c][s]))
-            if combinations[c][s] is not None:
-                rate_string.append(site_name[0])
+            # if combinations[c][s] is not None:
+            rate_string.append(site_name[0] + str(combinations[c][s])[0])
         rule_copy.name = rule_copy.name + '_' + '_'.join(name_string)
         rule_copy.rate_forward.name = rule_copy.rate_forward.name +\
                                       '_' + ''.join(rate_string)
-        if c != len(sites)**2 - 1:
+        
+        if c != 2**len(sites) - 1:
             # rule_copy.rename(rule_copy.name)
             model.add_component(rule_copy)
+            model.parameters.add(rule_copy.rate_forward)
 
     return model
