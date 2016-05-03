@@ -24,7 +24,7 @@ def get_products(rule):
     return products
 
 
-def enumerate_rules(model, rule):
+def enumerate_rules(model, rule, exclude=[]):
     ''' Given a rule, generate rules for all possible combinations, 
     taking into account the binding sites and occupancy for each
     participating monomer in the rule. '''
@@ -42,7 +42,7 @@ def enumerate_rules(model, rule):
     for i, r in enumerate(reactant_names):
         for j in model.monomers[r].sites:
             if j not in [c.lower()
-                         for ind, c in enumerate(reactant_names) if ind != i]:
+                         for ind, c in enumerate(reactant_names) if ind != i] and j not in exclude:
                 sites.append(str(i) + '_' + j)
               
     conds = [None, ANY]
