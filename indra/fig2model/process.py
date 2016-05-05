@@ -17,22 +17,23 @@ class Publication(object):
         if not mlist:
             self.hypotheses = [Hypothesis(h) for h in paper['hypos']]
         elif mlist:
-            slist = []
+            hlist = []
             for h in paper['hypos']:
                 hy = Hypothesis(h)
                 if hy.assayed and hy.intervention in mlist:
-                    slist.append(hy)
-            self.hypotheses = slist
+                    hlist.append(hy)
+            self.hypotheses = hlist
 
+            
 class Hypothesis(object):
     def __init__(self, hypothesis):
         self.assertion = hypothesis['hypo']
         self.assayed = hypothesis['displayRight'][0].lower()
         self.intervention = hypothesis['displayLeft'][0].lower()
-        ids = []
         fig_base_url = 'http://sourcedata.vital-it.ch/public/#/panel/'
         self.panels = [fig_base_url + panel['panel_id']
-                       for panel in hypothesis['panels']] 
+                       for panel in hypothesis['panels']]
+        
 
     def __repr__(self):
         return("<Assertion: %s, %d panels at 0x%x>" %

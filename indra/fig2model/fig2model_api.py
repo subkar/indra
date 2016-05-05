@@ -2,7 +2,7 @@ import sourcedata_client as sdc
 from process import Publication, Hypothesis
 
 def process_query(query, mlist=[], save_json_name = 'sd_output.json'):
-    dict = sdc.get_json(query)
+    dict = sdc.get_json(query, limit=100)
     sdc.save_json(dict, save_json_name)
     return process_json(dict, mlist)
 
