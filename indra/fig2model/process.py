@@ -1,27 +1,27 @@
+class Publication(object):
+    def __init__(self, paper):
+        self.pmid = paper['pmid']
+        self.hypotheses = [Hypothesis(h) for h in paper['hypos']]
 
-def get_pmids(json):
-    papers = {}
-    for _, paper in enumerate(json['results']['direct']):
-        if paper['pmid'] != None:
-            paper_key = 'PMID' + paper['pmid']
-        papers[paper_key] = get_hypos(paper)
-    return papers
+    def __str__(self):
+        return ("Publication PMID:" + self.pmid)
 
-    
-def get_hypos(paper):
-    hypos = []
-    for _, hypo in enumerate(paper['hypos']):
-        ids = get_panel_ids(hypo)
-        hypos.append({hypo['hypo']: ids})
-    return hypos    
+    def __repr__(self):
+        return ("<pmid: %s, %d hypotheses at 0x%x>" %
+                (self.pmid, len(self.hypotheses), id(self)))
 
 
-def get_panel_ids(hypo):
-    ids = []
-    fig_base_url = 'http://sourcedata.vital-it.ch/public/#/panel/'
-    for _, panel in enumerate(hypo['panels']):
-        ids.append(fig_base_url + panel['panel_id'])
-    return ids
+class Hypothesis(object):
+    def __init__(self, hypothesis):
+        self.assertion = hypothesis['hypo']
+        ids = []
+        fig_base_url = 'http://sourcedata.vital-it.ch/public/#/panel/'
+        self.panels = [fig_base_url + panel['panel_id']
+                       for panel in hypothesis['panels']] 
+
+    def __repr__(self):
+        return("<Assertion: %s, %d panels at 0x%x>" %
+               (self.assertion, len(self.panels) , id(self)))
 
 
 
