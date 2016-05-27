@@ -8,7 +8,7 @@ from pysb import *
 from run_model import run_model
 
 for i in range(3):
-    tp = trips.process_xml(open('model_%s.xml' % (i+1)).read())
+    tp = trips.process_text(open('model_%s.text' % (i+1)).read())
     pa = PysbAssembler()
     pa.add_statements(tp.statements)
     model = pa.make_model(policies='two_step')
