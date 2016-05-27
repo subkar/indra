@@ -75,24 +75,24 @@ Parameter('MAPK1_0', 1e5)
 Parameter('DUSP6_0', 1e3)
 Parameter('EGF_0', 1e3)
 
-Parameter('kf_bb_bind_1_nN_vN_nN_vN', 1e-06) # 1e-06
-Parameter('kf_bb_bind_1_nN_vN_nN_vA', 1e-03) # 1e-03
-Parameter('kf_bb_bind_1_nN_vN_nA_vN', 0) # 0
-Parameter('kf_bb_bind_1_nN_vN_nA_vA', 0) # 0
-Parameter('kf_bb_bind_1_nN_vA_nN_vA', 1e-08) # 1e-08
-Parameter('kf_bb_bind_1_nN_vA_nA_vN', 0) # 0
-Parameter('kf_bb_bind_1_nN_vA_nA_vA', 0) # 0
-Parameter('kf_bb_bind_1_nA_vN_nA_vN', 1) # 1
-Parameter('kf_bb_bind_1_nA_vN_nA_vA', 1) # 1
-Parameter('kr_bb_bind_1_nN_vN_nN_vN', 1) # 1
-Parameter('kr_bb_bind_1_nN_vN_nN_vA', 1) # 1
-Parameter('kr_bb_bind_1_nN_vN_nA_vN', 0) # 0
-Parameter('kr_bb_bind_1_nN_vN_nA_vA', 0) # 0
-Parameter('kr_bb_bind_1_nN_vA_nN_vA', 1) # 1
-Parameter('kr_bb_bind_1_nN_vA_nA_vN', 0) # 0
-Parameter('kr_bb_bind_1_nN_vA_nA_vA', 0) # 0
-Parameter('kr_bb_bind_1_nA_vN_nA_vN', 1e-04) # 1e-04
-Parameter('kr_bb_bind_1_nA_vN_nA_vA', 1e-04) # 1e-04
+Parameter('kf_bb_bind_1_nN_vN_nN_vN', 1e-06) 
+Parameter('kf_bb_bind_1_nN_vN_nN_vA', 1e-03) 
+Parameter('kf_bb_bind_1_nN_vN_nA_vN', 1e-06) 
+Parameter('kf_bb_bind_1_nN_vN_nA_vA', 1e-06) 
+Parameter('kf_bb_bind_1_nN_vA_nN_vA', 1e-08) 
+Parameter('kf_bb_bind_1_nN_vA_nA_vN', 1e-06) 
+Parameter('kf_bb_bind_1_nN_vA_nA_vA', 1e-06) 
+Parameter('kf_bb_bind_1_nA_vN_nA_vN', 1)
+Parameter('kf_bb_bind_1_nA_vN_nA_vA', 1) 
+Parameter('kr_bb_bind_1_nN_vN_nN_vN', 1) 
+Parameter('kr_bb_bind_1_nN_vN_nN_vA', 1) 
+Parameter('kr_bb_bind_1_nN_vN_nA_vN', 1e-06) 
+Parameter('kr_bb_bind_1_nN_vN_nA_vA', 1e-06)
+Parameter('kr_bb_bind_1_nN_vA_nN_vA', 1) 
+Parameter('kr_bb_bind_1_nN_vA_nA_vN', 1e-06) 
+Parameter('kr_bb_bind_1_nN_vA_nA_vA', 1e-06) 
+Parameter('kr_bb_bind_1_nA_vN_nA_vN', 1e-04) 
+Parameter('kr_bb_bind_1_nA_vN_nA_vA', 1e-04) 
 
 
 # EGF to RAS
