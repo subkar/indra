@@ -392,7 +392,8 @@ Annotation(EGF, 'http://identifiers.org/uniprot/P01132', 'is')
 Annotation(EGF, 'http://identifiers.org/hgnc/HGNC:3229', 'is')
 
 
-Observable('MAPK1_P', MAPK1(phospho='p'))
-Observable('MAP2K1_P', MAP2K1(phospho='p'))
+Observable('ERK_p', MAPK1(phospho='p'))
+Observable('MEK_p', MAP2K1(phospho='p'))
 Observable('Vem_obs', VEMURAFENIB(braf=None))
-
+Observable('RAS_active', NRAS(gtp=ANY))
+Observable('SOS1_active', SOS1(phospho='u'))
