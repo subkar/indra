@@ -6,9 +6,11 @@ from indra import trips
 import pysb.export
 from pysb import *
 from run_model import run_model
+from enumerate_rules import enumerate_rules
 
-for i in range(3):
-    tp = trips.process_text(open('model_%s.text' % (i+1)).read())
+
+for i in range(4):
+    tp = trips.process_text(open('model_%s.txt' % (i+1)).read())
     pa = PysbAssembler()
     pa.add_statements(tp.statements)
     model = pa.make_model(policies='two_step')
@@ -82,29 +84,69 @@ for i in range(3):
     model.parameters['PPP2CA_0'].value = 1e5
     
 
-    feedback_params = ['PHOSPHATASE_0',
-                       'kf_ms_bind_1', 'kr_ms_bind_1', 'kc_ms_phos_1',
-                       'kf_ps_bind_1', 'kr_ps_bind_1', 'kc_ps_dephos_1']
+    # feedback_params = ['PHOSPHATASE_0',
+    #                   'kf_ms_bind_1', 'kr_ms_bind_1', 'kc_ms_phos_1',
+    #                   'kf_ps_bind_1', 'kr_ps_bind_1', 'kc_ps_dephos_1']
 
-    if set(feedback_params) < set([p.name for p in model.parameters]):
-        print 'it matches'
-        model.parameters['PHOSPHATASE_0'].value = 1e2
+    # if set(feedback_params) < set([p.name for p in model.parameters]):
+    if i > 0:
+        model.parameters['lrrc6_0'].value = 1e2
         model.parameters['kf_ms_bind_1'].value = 1e-04
         model.parameters['kr_ms_bind_1'].value = 1e-04
         model.parameters['kc_ms_phos_1'].value = 1
-        model.parameters['kf_ps_bind_1'].value = 1
-        model.parameters['kr_ps_bind_1'].value = 0.1
-        model.parameters['kc_ps_dephos_1'].value = 1e-04
+        model.parameters['kf_ls_bind_1'].value = 1
+        model.parameters['kr_ls_bind_1'].value = 0.1
+        model.parameters['kc_ls_dephos_1'].value = 1e-04
         
 
-    braf_dimerization_params = ['kf_bb_bind_1', 'kr_bb_bind_1']
+    # braf_dimerization_params = ['kf_bb_bind_1', 'kr_bb_bind_1']
     
-    if set(braf_dimerization_params) < set([p.name for p in model.parameters]):
+    # if set(braf_dimerization_params) < set([p.name for p in model.parameters]):
+    if i == 2:
         model.parameters['kf_bb_bind_1'].value = 1
-        model.parameters['kr_bb_bind_1'].value = 1e-04   
+        model.parameters['kr_bb_bind_1'].value = 1e-04
+
+    if i == 3:
+        enumerate_rules(model, model.rules['BRAF_BRAF_bind'], ['map2k1', 'V600'])
+        enumerate_rules(model, model.rules['BRAF_BRAF_dissociate'], ['map2k1', 'V600'])
+        enumerate_rules(model, model.rules['VEMURAFENIB_BRAF_bind'], ['map2k1', 'nras', 'V600'])
+        enumerate_rules(model, model.rules['VEMURAFENIB_BRAF_dissociate'], ['map2k1', 'nras', 'V600'])
+        
+        # model.parameters['kf_bb_bind_1_nA_vA_nA_vA'].value =  1e-02
+        # model.parameters['kr_bb_bind_1_nA_vA_nA_vA'].value = 1
+        model.parameters['kf_bb_bind_1_nN_vN_nN_vN'].value = 1e-06 
+        model.parameters['kf_bb_bind_1_nN_vN_nN_vA'].value = 1e-03 
+        model.parameters['kf_bb_bind_1_nN_vN_nA_vN'].value = 1e-06 
+        model.parameters['kf_bb_bind_1_nN_vN_nA_vA'].value = 1e-06 
+        model.parameters['kf_bb_bind_1_nN_vA_nN_vA'].value = 1e-08 
+        model.parameters['kf_bb_bind_1_nN_vA_nA_vN'].value = 1e-06 
+        model.parameters['kf_bb_bind_1_nN_vA_nA_vA'].value = 1e-06 
+        model.parameters['kf_bb_bind_1_nA_vN_nA_vN'].value = 1
+        model.parameters['kf_bb_bind_1_nA_vN_nA_vA'].value = 1 
+        model.parameters['kr_bb_bind_1_nN_vN_nN_vN'].value = 1 
+        model.parameters['kr_bb_bind_1_nN_vN_nN_vA'].value = 1 
+        model.parameters['kr_bb_bind_1_nN_vN_nA_vN'].value = 1e-06
+        model.parameters['kr_bb_bind_1_nN_vN_nA_vA'].value = 1e-06
+        model.parameters['kr_bb_bind_1_nN_vA_nN_vA'].value = 1 
+        model.parameters['kr_bb_bind_1_nN_vA_nA_vN'].value =  1e-06 
+        model.parameters['kr_bb_bind_1_nN_vA_nA_vA'].value = 1e-06 
+        model.parameters['kr_bb_bind_1_nA_vN_nA_vN'].value = 1e-04 
+        model.parameters['kr_bb_bind_1_nA_vN_nA_vA'].value = 1e-04 
+
+
+        #model.parameters['kf_vb_bind_1_bA'].value =  1e-02
+        #model.parameters['kr_vb_bind_1_bA'].value = 1e-01
+        model.parameters['kf_vb_bind_1_bN'].value =  1e-01
+        model.parameters['kr_vb_bind_1_bN'].value = 1e-01
+
+        # Note
+        # ----
+        # The pysb file generated for model 4 has to be manually modified.
+        # Refer model_4a.py
+
  
     pa.save_model('model_%d.py' % (i+1))
-    run_model(model, 'model_%d_plot.png' & (i+1))
+    run_model(model, 'model_%d_plot.png' % (i+1))
 
 
 
