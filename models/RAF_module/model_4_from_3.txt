@@ -1,0 +1,4 @@
+8c8
+< NRAS-bound BRAF binds NRAS-bound BRAF.
+---
+> BRAF binds BRAF.

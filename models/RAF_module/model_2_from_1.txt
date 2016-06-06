@@ -1,0 +1,9 @@
+4,5c4,5
+< GRB2 bound to EGFR binds SOS1.
+< GRB2-bound SOS1 binds NRAS not bound to BRAF.
+---
+> GRB2 bound to EGFR binds SOS1 that is not phosphorylated.
+> GRB2-bound SOS1 that is not phosphorylated binds NRAS not bound to BRAF.
+13a14,15
+> Active ERK2 that is not bound to DUSP6 phosphorylates SOS1 not bound to NRAS.
+> Phosphatase dephosphorylates SOS1.
