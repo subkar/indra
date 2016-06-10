@@ -88,8 +88,8 @@ for i in range(4):
     model.parameters['kf_nb_bind_1'].value = 1
     model.parameters['kr_nb_bind_1'].value = 0.5
 
-    model.parameters['kf_vb_bind_1'].value = 0.1
-    model.parameters['kr_vb_bind_1'].value = 0.1
+    model.parameters['kf_vb_bind_1'].value = 10
+    model.parameters['kr_vb_bind_1'].value = 1
 
     model.parameters['kf_bm_bind_1'].value = 1
     model.parameters['kr_bm_bind_1'].value = 0.1
@@ -132,8 +132,6 @@ for i in range(4):
 
 
     if i == 3:
-        model.parameters['kf_vb_bind_1'].value = 10
-        model.parameters['kr_vb_bind_1'].value = 1
         model.parameters['kf_vb_bind_2'].value = 1e-04
         
 
