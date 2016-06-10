@@ -1,4 +1,4 @@
-8c8
-< NRAS-bound BRAF binds NRAS-bound BRAF.
+< Vemurafenib binds BRAF.
 ---
-> BRAF binds BRAF.
+> Vemurafenib binds BRAF that is not bound to BRAF.
+> Vemurafenib binds BRAF-bound BRAF.
