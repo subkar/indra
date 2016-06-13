@@ -59,6 +59,8 @@ for i in range(4):
     model.add_component(obs2)
     model.add_component(obs3)
     braf = model.monomers['BRAF']
+    obs4 = Observable('BRAF_active', braf(vemurafenib=None))
+    model.add_component(obs4)
     model.parameters['BRAF_0'].value = 0
 
     # Add mutated form of BRAF as initial condition
@@ -127,8 +129,8 @@ for i in range(4):
         model.parameters['kc_ls_dephos_1'].value = 1e-04
 
     if i > 1:
-        model.parameters['kf_bb_bind_1'].value = 10 #1
-        model.parameters['kr_bb_bind_1'].value = 1 #1e-04
+        model.parameters['kf_bb_bind_1'].value = 10
+        model.parameters['kr_bb_bind_1'].value = 1
 
 
     if i == 3:

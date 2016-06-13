@@ -29,9 +29,15 @@ def run_model(model, save_plot='model_plot.png'):
     yout = np.concatenate((y1[:-1], y2), axis=0)
     yobs = np.concatenate((yobs1[:-1], yobs2), axis=0)
     tout = np.append(t[:-1], t + t[-1])
-
+    
+    plt.figure()
     plt.plot(t, yobs2['ERK_p']/yobs2['ERK_p'][0],
-             t, yobs2['RAS_active']/yobs2['RAS_active'][0], linewidth=5)
-    plt.legend(['ERK_p', 'RAS_active'])
+             t, yobs2['RAS_active']/yobs2['RAS_active'][0],
+             t, yobs2['BRAF_active']/yobs2['BRAF_active'][0],
+             linewidth=5)
+    plt.legend(['ERK_p', 'RAS_active', 'BRAF_active'])
     plt.savefig(save_plot)
     plt.clf()
+
+
+    
