@@ -27,6 +27,7 @@ def process_ids(panel_ids):
         p.figure_label(panel_dict)
         p.caption(panel_dict)
         p.href(panel_dict)
+        p.assay(panel_dict)
         panels.append(p)
 
     return panels

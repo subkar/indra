@@ -27,7 +27,16 @@ class Panel(object):
     def href(self, panel):
         for p in panel['figure']['panels']:
             if p['panel_id'] == panel['current_panel_id']:
-                self.href = p['href']           
+                self.href = p['href']
+
+
+    def assay(self, panel):
+        for p in panel['figure']['panels']:
+            if p['panel_id'] == panel['current_panel_id']:
+                tags = p['tags']
+        for tag in tags:
+            if tag['category'] == 'assay':
+                self.assay = tag['text']
 
 
 
