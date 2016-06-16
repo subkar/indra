@@ -39,5 +39,29 @@ class Panel(object):
                 self.assay = tag['text']
 
 
+    def cell_line(self, panel):
+        for p in panel['figure']['panels']:
+            if p['panel_id'] == panel['current_panel_id']:
+                tags = p['tags']
+        for tag in tags:
+            if tag['type'] == 'cell':
+                self.cell_line = tag['text']
+
+
+    def proteins(self, panel):
+        for p in panel['figure']['panels']:
+            if p['panel_id'] == panel['current_panel_id']:
+                tags = p['tags']
+        protein_dict = {}        
+        for tag in tags:
+            if tag['type'] == 'protein':
+                if 'external_tax_names' in tag.keys():
+                    protein_dict[tag['id']] = [tag['text'], list(set(tag['external_tax_names']))[0]]
+                else: protein_dict[tag['id']] = [tag['text'], 'no organism annotation']    
+        self.proteins = protein_dict        
+            
+        
+
+
 
 
