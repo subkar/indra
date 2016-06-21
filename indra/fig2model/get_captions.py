@@ -1,5 +1,6 @@
 import requests
 import xml.etree.ElementTree as ET
+import re
 
 base_url = "http://www.ncbi.nlm.nih.gov/pmc/oai/oai.cgi"
 
@@ -28,9 +29,14 @@ def parse_xml(pmcid):
 def get_captions(xml):
     tree = ET.fromstring(xml)
     captions = []
+    metadata = tree.findall('.//{http://www.openarchives.org/OAI/2.0/}metadata')
+    tag = metadata[0][0].tag
+    schema_location = re.split('\}', tag)[0] + '}'
+    caption_tag = schema_location + 'caption'
+
     for caption in tree.findall(
-            './/{http://jats.nlm.nih.gov/ns/archiving/1.0/}caption'):
-        p = caption.find('{http://jats.nlm.nih.gov/ns/archiving/1.0/}p')
+            './/' + caption_tag):
+        p = caption.find(schema_location + 'p')
         if p is not None:
             text = ''.join([i for i in p.itertext()])
             captions.append(text)
