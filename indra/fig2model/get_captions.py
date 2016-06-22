@@ -46,7 +46,7 @@ def get_captions(xml):
     return captions        
 
 
-def process_caption(caption):
+def get_entities(caption):
     rp = reach.process_text(caption, offline=True)
     json_output = open('reach_output.json').read()
     js = json.loads(json_output)
