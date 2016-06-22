@@ -1,6 +1,9 @@
 import requests
 import xml.etree.ElementTree as ET
 import re
+from indra import reach
+import json
+from process_captions import Refs
 
 base_url = "http://www.ncbi.nlm.nih.gov/pmc/oai/oai.cgi"
 
@@ -41,7 +44,16 @@ def get_captions(xml):
             text = ''.join([i for i in p.itertext()])
             captions.append(text)
     return captions        
-            
+
+
+def process_caption(caption):
+    rp = reach.process_text(caption, offline=True)
+    json_output = open('reach_output.json').read()
+    js = json.loads(json_output)
+    entities = []
+    for entity in js['entities']['frames']:
+        entities.append(Refs(entity))
+    return entities                    
                 
 
     
