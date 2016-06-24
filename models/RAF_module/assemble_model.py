@@ -1,6 +1,4 @@
 import os
-import sys
-sys.path.append('../..')
 from pysb import *
 import pysb.export
 from indra import trips
