@@ -31,10 +31,14 @@ def run_model(model, save_plot='model_plot.png'):
     tout = np.append(t[:-1], t + t[-1])
     
     plt.figure()
+    plt.ion()
     plt.plot(t, yobs2['ERK_p']/yobs2['ERK_p'][0],
              t, yobs2['RAS_active']/yobs2['RAS_active'][0],
-             t, yobs2['BRAF_active']/yobs2['BRAF_active'][0],
              linewidth=5)
+    plt.xticks([])
+    plt.xlabel('time (a.u)', fontsize=15)
+    plt.ylabel('Fold-change after Vemurafenib treatment', fontsize=15)
+    plt.xlim([0, 30000])
     plt.legend(['ERK_p', 'RAS_active', 'BRAF_active'])
     plt.savefig(save_plot)
     plt.clf()
