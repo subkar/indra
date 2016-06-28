@@ -56,10 +56,12 @@ def plot_fold_change_time(t, yobs, yobs_ref, save_plot):
     plt.plot(ts, ras_foldchange, linewidth=5)
     plt.xticks([])
     plt.xlabel('time (a.u)', fontsize=15)
+
+    plt.xlim([0, 30000])
     plt.ylabel('Fold-change after Vemurafenib treatment', fontsize=15)
-    #plt.xlim([0, 30000])
     plt.legend(['Phosphorylated ERK', 'Active RAS'])
-    plt.savefig(save_plot)
+    plt.savefig(save_plot, dpi=600)
+    plt.clf()
 
 def get_egf_vem_doseresp(egf_doses, vem_doses, readout='absolute'):
     yobs0, y0 = simulate_untreated(model, ts)
