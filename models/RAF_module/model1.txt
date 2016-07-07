@@ -1,13 +1,13 @@
 The receptor tyrosine kinase EGFR binds the growth factor ligand EGF.
 The EGFR-EGF complex binds another EGFR-EGF complex.
 The EGFR-EGFR complex binds GRB2.
-GRB2 bound to EGFR binds SOS1.
-GRB2-bound SOS1 binds NRAS not bound to BRAF.
+EGFR-bound GRB2 binds SOS1.
+GRB2-bound SOS1 binds NRAS that is not bound to BRAF.
 SOS1-bound NRAS binds GTP.
 GTP-bound NRAS that is not bound to SOS1 binds BRAF.
 Vemurafenib binds BRAF.
 Phosphorylated MAP2K1 is activated.
-PP2A-alpha dephosphorylates MAP2K1 not bound to ERK2.
+PP2A-alpha dephosphorylates MAP2K1 that is not bound to ERK2.
 Active MAP2K1 that is not bound to PP2A-alpha phosphorylates ERK2.
 Phosphorylated ERK2 is activated.
 DUSP6 dephosphorylates ERK2 that is not bound to SOS1.
