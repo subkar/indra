@@ -25,16 +25,16 @@ def apply_patch(original, patch):
 
 def assemble_model(model_id):
     print 'Reading model %d' % model_id
-    model_name = 'model_%d' % model_id
+    model_name = 'model%d' % model_id
     # If model has already been read, just process the EKB XML
     if os.path.exists(model_name + '.xml'):
         tp = trips.process_xml(open(model_name + '.xml').read())
     else:
         # Start with the basic model
-        model_txt = open('model_1.txt').read()
+        model_txt = open('model1.txt').read()
         # Apply patches one by one to get to the current model text
         for j in range(1, model_id):
-            patch_txt = open('model_%d_from_%d.txt' % (j+1, j)).read()
+            patch_txt = open('model%d_from%d.txt' % (j+1, j)).read()
             model_txt = apply_patch(model_txt, patch_txt)
         print model_txt
         # Process model text and save result EKB XML
@@ -133,5 +133,5 @@ def assemble_model(model_id):
         model.parameters['kf_vb_bind_2'].value = 1e-04
 
     pa.model = model
-    pa.save_model('model_%d.py' % model_id)
+    pa.save_model('model%d.py' % model_id)
     return model

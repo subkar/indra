@@ -1,4 +1,0 @@
-< Vemurafenib binds BRAF.
----
-> Vemurafenib binds BRAF that is not bound to BRAF.
-> Vemurafenib binds BRAF-bound BRAF.
