@@ -1,47 +1,51 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from pysb.integrate import Solver
+import assemble_model
 
-def run_model(model, save_plot='model_plot.png'):
-    t = np.linspace(0, 10*3600, 10*60)
+def simulate_vemurafenib_treatment(model):
+    sim_hours = 10
+    t = np.linspace(0, sim_hours*3600, sim_hours*60)
 
     model.parameters['VEMURAFENIB_0'].value = 0
 
     solver = Solver(model, t)
     solver.run()
-    y1 = solver.y
     yobs1 = solver.yobs
     # New initial conditions for simulation post event
     y_init = solver.y[-1]
-    # Change level of Vemurafenib from 0 to 2e4 molecules/cell
-    assert len(model.observables['Vem_obs'].species) == 1, \
-        "The observable complex pattern is comprised of more than one species."
-
     y_init[model.observables['Vem_obs'].species[0]] = 2e5
 
     # Continue model simulation with y_init as new initial condition
     solver = Solver(model, t)
     solver.run(y0=y_init)
-    y2 = solver.y
     yobs2 = solver.yobs
 
     # Concatenate the two simulations
-    yout = np.concatenate((y1[:-1], y2), axis=0)
     yobs = np.concatenate((yobs1[:-1], yobs2), axis=0)
     tout = np.append(t[:-1], t + t[-1])
-    
+    treatment_time = sim_hours*60-1
+    return tout, yobs, treatment_time
+
+def plot_fold_change_time(t, yobs, treatment_time, save_plot):
     plt.figure()
-    plt.ion()
-    plt.plot(t, yobs2['ERK_p']/yobs2['ERK_p'][0],
-             t, yobs2['RAS_active']/yobs2['RAS_active'][0],
-             linewidth=5)
+    erk_foldchange = yobs['ERK_p'][treatment_time:] / \
+                     yobs['ERK_p'][treatment_time]
+    ras_foldchange = yobs['RAS_active'][treatment_time:] / \
+                     yobs['RAS_active'][treatment_time]
+    ts = t[treatment_time:] - t[treatment_time]
+    plt.plot(ts, erk_foldchange, linewidth=5)
+    plt.plot(ts, ras_foldchange, linewidth=5)
     plt.xticks([])
     plt.xlabel('time (a.u)', fontsize=15)
     plt.ylabel('Fold-change after Vemurafenib treatment', fontsize=15)
     plt.xlim([0, 30000])
     plt.legend(['ERK_p', 'RAS_active', 'BRAF_active'])
     plt.savefig(save_plot)
-    plt.clf()
 
-
-    
+if __name__ == '__main__':
+    model_id = 1
+    model = assemble_model.assemble_model(model_id)
+    t, y, treatment_time = simulate_vemurafenib_treatment(model)
+    plot_fold_change_time(t, y, treatment_time, 
+                          'outputs/model%s_vem_treatment.png' % model_id)

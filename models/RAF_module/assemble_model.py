@@ -3,7 +3,6 @@ from pysb import *
 import pysb.export
 from indra import trips
 from indra.assemblers import PysbAssembler
-from run_model import run_model
 from enumerate_rules import enumerate_rules
 
 def apply_patch(original, patch):
@@ -24,9 +23,9 @@ def apply_patch(original, patch):
     new_txt = '\n'.join(new_lines)
     return new_txt
 
-for i in range(4):
-    print 'Reading model %d' % (i+1)
-    model_name = 'model_%d' % (i+1)
+def assemble_model(model_id):
+    print 'Reading model %d' % model_id
+    model_name = 'model_%d' % model_id
     # If model has already been read, just process the EKB XML
     if os.path.exists(model_name + '.xml'):
         tp = trips.process_xml(open(model_name + '.xml').read())
@@ -34,7 +33,7 @@ for i in range(4):
         # Start with the basic model
         model_txt = open('model_1.txt').read()
         # Apply patches one by one to get to the current model text
-        for j in range(1, i+1):
+        for j in range(1, model_id):
             patch_txt = open('model_%d_from_%d.txt' % (j+1, j)).read()
             model_txt = apply_patch(model_txt, patch_txt)
         print model_txt
@@ -117,7 +116,7 @@ for i in range(4):
     model.parameters['DUSP6_0'].value = 1e3
     model.parameters['PPP2CA_0'].value = 1e5
 
-    if i > 0:
+    if model_id >= 2:
         model.parameters['lrrc6_0'].value = 1e2
         model.parameters['kf_ms_bind_1'].value = 1e-05
         model.parameters['kr_ms_bind_1'].value = 1e-04
@@ -126,15 +125,13 @@ for i in range(4):
         model.parameters['kr_ls_bind_1'].value = 0.1
         model.parameters['kc_ls_dephos_1'].value = 1e-04
 
-    if i > 1:
+    if model_id >= 3:
         model.parameters['kf_bb_bind_1'].value = 10
         model.parameters['kr_bb_bind_1'].value = 1
 
-
-    if i == 3:
+    if model_id == 4:
         model.parameters['kf_vb_bind_2'].value = 1e-04
-        
 
     pa.model = model
-    pa.save_model('model_%d.py' % (i+1))
-    run_model(model, 'model_%d_plot.png' % (i+1))
+    pa.save_model('model_%d.py' % model_id)
+    return model
