@@ -1,8 +1,0 @@
-NRAS binds BRAF.
-BRAF that is not bound to NRAS binds BRAF.
-BRAF, bound to NRAS binds BRAF, bound to NRAS.
-BRAF that is not bound to BRAF binds Vemurafenib.
-The BRAF-BRAF complex binds Vemurafenib.
-BRAF phosphorylates MAPK3
-DUSP dephosphorylates MAPK3 
-
