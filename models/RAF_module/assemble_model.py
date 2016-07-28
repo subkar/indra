@@ -3,7 +3,6 @@ from pysb import *
 import pysb.export
 from indra import trips
 from indra.assemblers import PysbAssembler
-from enumerate_rules import enumerate_rules
 
 def apply_patch(original, patch):
     orig_lines = [s.strip() for s in original.strip().split('\n')]
@@ -48,17 +47,20 @@ def assemble_model(model_id):
     # Set initial conditions
     erk = model.monomers['MAPK1']
     obs = Observable('ERK_p', erk(phospho='p'))
-    vem = model.monomers['VEMURAFENIB']
-    obs2 = Observable('Vem_obs', vem(braf=None))
-    ras = model.monomers['NRAS']
-    obs3 = Observable('RAS_active', ras(gtp=ANY))
     model.add_component(obs)
-    model.add_component(obs2)
-    model.add_component(obs3)
+    vem = model.monomers['VEMURAFENIB']
+    obs = Observable('Vem_free', vem(braf=None))
+    model.add_component(obs)
+    ras = model.monomers['NRAS']
+    obs = Observable('RAS_active', ras(gtp=ANY))
+    model.add_component(obs)
     braf = model.monomers['BRAF']
-    obs4 = Observable('BRAF_active', braf(vemurafenib=None))
-    model.add_component(obs4)
+    obs = Observable('BRAF_active', braf(vemurafenib=None))
+    model.add_component(obs)
     model.parameters['BRAF_0'].value = 0
+    egf = model.monomers['EGF']
+    obs = Observable('EGF_free', egf(egfr=None))
+    model.add_component(obs)
 
     # Add mutated form of BRAF as initial condition
     sites_dict = {}
