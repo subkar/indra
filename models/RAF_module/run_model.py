@@ -87,20 +87,23 @@ def get_egf_vem_doseresp(egf_doses, vem_doses, readout='absolute'):
 def plot_egf_vem_dose(egf_doses, vem_doses, erk, ras, save_plot):
     cmap = plt.get_cmap('bwr')
     f, (ax1, ax2) = plt.subplots(1, 2)
-    ax1.imshow(np.flipud(erk), cmap=cmap)
+    f1 = ax1.imshow(np.flipud(erk), cmap=cmap, vmin=0)
     ax1.set_title('pERK')
     ax1.set_xlabel('Vemurafenib')
     ax1.set_ylabel('EGF')
     ax1.set_aspect('equal')
     ax1.set_xticks([])
     ax1.set_yticks([])
-    ax2.imshow(np.flipud(ras), cmap=cmap)
+    f.colorbar(f1, ax=ax1)
+    f2 = ax2.imshow(np.flipud(ras), cmap=cmap, vmin=0)
     ax2.set_title('Active RAS')
     ax2.set_xlabel('Vemurafenib')
     ax2.set_ylabel('EGF')
     ax2.set_xticks([])
     ax2.set_yticks([])
     ax2.set_aspect('equal')
+    f.colorbar(f2, ax=ax2)
+    
     f.savefig(save_plot)
 
     #plt.plot(egf_doses, erk_vals, linewidth=5)
@@ -122,8 +125,8 @@ def save_model(model):
 if __name__ == '__main__':
     sim_hours = 10
     ts = np.linspace(0, sim_hours*3600, sim_hours*60)
-    egf_doses = np.logspace(4, 6, 5)
-    vem_doses = np.logspace(4, 6, 5)
+    egf_doses = np.logspace(1, 6, 9)
+    vem_doses = np.logspace(1, 6, 9)
     for model_id in (1,2,4):
         print 'Running model %d' % model_id
         print '----------------'
