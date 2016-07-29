@@ -1,6 +1,1 @@
-7a8
 > NRAS-bound BRAF binds NRAS-bound BRAF.
-16c17
-< BRAF V600E that is not bound to Vemurafenib phosphorylates MAP2K1.
----
-> BRAF V600E that is not bound to Vemurafenib phosphorylates MAP2K1.
