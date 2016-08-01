@@ -93,25 +93,30 @@ def get_egf_vem_doseresp(egf_doses, vem_doses, readout='absolute'):
 
 
 def plot_egf_vem_dose(egf_doses, vem_doses, erk, ras, save_plot):
-    cmap = plt.get_cmap('bwr')
+    cmap = plt.get_cmap('jet')
     f, (ax1, ax2) = plt.subplots(1, 2)
-    f1 = ax1.imshow(np.flipud(erk), cmap=cmap, vmin=0)
-    ax1.set_title('pERK')
+    max_erk = np.amax(erk) + 1
+    max_ras = np.amax(ras) + 1
+    f1 = ax1.imshow(np.flipud(erk), cmap=cmap, vmin=0, vmax=max_erk)
+    ax1.set_title('pERK rebound')
     ax1.set_xlabel('Vemurafenib')
     ax1.set_ylabel('EGF')
     ax1.set_aspect('equal')
     ax1.set_xticks([])
     ax1.set_yticks([])
-    f.colorbar(f1, ax=ax1)
-    f2 = ax2.imshow(np.flipud(ras), cmap=cmap, vmin=0)
+    cb = f.colorbar(f1, ax=ax1, fraction=0.05, pad=0.05)
+    cb.set_ticks([0, max_erk])
+    # cb.set_ticklabels([0, max_erk])
+    f2 = ax2.imshow(np.flipud(ras), cmap=cmap, vmin=0, vmax=max_ras)
     ax2.set_title('Active RAS')
     ax2.set_xlabel('Vemurafenib')
-    ax2.set_ylabel('EGF')
+    # ax2.set_ylabel('EGF')
     ax2.set_xticks([])
     ax2.set_yticks([])
     ax2.set_aspect('equal')
-    f.colorbar(f2, ax=ax2)
-    
+    cb = f.colorbar(f2, ax=ax2, fraction=0.05, pad=0.05)
+    cb.set_ticks([0, max_ras])
+    # cb.set_ticklabels([0, max_ras])
     f.savefig(save_plot)
 
     #plt.plot(egf_doses, erk_vals, linewidth=5)
@@ -136,9 +141,9 @@ def save_model(model):
 if __name__ == '__main__':
     sim_hours = 10
     ts = np.linspace(0, sim_hours*3600, sim_hours*60)
-    egf_doses = np.logspace(0, 6, 9)
-    vem_doses = np.logspace(0, 6, 9)
-    for model_id in (1,2,4):
+    egf_doses = np.logspace(1, 4, 9)
+    vem_doses = np.logspace(4, 6, 9)
+    for model_id in (1, 2, 4):
         print 'Running model %d' % model_id
         print '----------------'
         if os.path.exists('model%d.pkl' % model_id):
