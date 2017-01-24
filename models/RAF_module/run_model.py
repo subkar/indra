@@ -1,12 +1,15 @@
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import dict, str
 import os
 import pickle
-import numpy as np
 import matplotlib
+import numpy as np
 # To suppress plots from popping up
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pysb.integrate import Solver
 from pysb.bng import generate_equations
+
 import assemble_model
 
 
@@ -88,7 +91,6 @@ def get_egf_vem_doseresp(egf_doses, vem_doses, readout='absolute'):
             elif readout == 'ss_min_diff':
                 erk[i,j] = yobs_ss['ERK_p'] - yobs_tc['ERK_p'].min()
                 ras[i,j] = yobs_ss['RAS_active']
-                
     return erk, ras
 
 
@@ -127,7 +129,7 @@ def plot_egf_vem_dose(egf_doses, vem_doses, erk, ras, save_plot):
     #plt.legend(['ERK_p', 'RAS_active'])
     #plt.savefig(save_plot)
 
-    
+
 def load_model(model_id):
     model = pickle.load(open('model%d.pkl' % model_id, 'rb'))
     return model
@@ -137,15 +139,15 @@ def save_model(model):
     with open('model%d.pkl' % model_id, 'wb') as fh:
         pickle.dump(model, fh)
 
-        
+
 if __name__ == '__main__':
     sim_hours = 10
     ts = np.linspace(0, sim_hours*3600, sim_hours*60)
     egf_doses = np.logspace(1, 4, 9)
     vem_doses = np.logspace(4, 6, 9)
     for model_id in (1, 2, 4):
-        print 'Running model %d' % model_id
-        print '----------------'
+        print('Running model %d' % model_id)
+        print('----------------')
         if os.path.exists('model%d.pkl' % model_id):
             model = load_model(model_id)
         else:

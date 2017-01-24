@@ -1,3 +1,5 @@
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import dict, str
 import os
 from pysb import *
 import pysb.export
@@ -22,11 +24,10 @@ def apply_patch(original, patch):
     new_txt = '\n'.join(new_lines)
     return new_txt
 
-def assemble_model(model_id):
-    print 'Reading model %d' % model_id
+def assemble_model(model_id, reread=False):
     model_name = 'model%d' % model_id
     # If model has already been read, just process the EKB XML
-    if os.path.exists(model_name + '.xml'):
+    if os.path.exists(model_name + '.xml') and not reread:
         tp = trips.process_xml(open(model_name + '.xml').read())
     else:
         # Start with the basic model
@@ -35,10 +36,14 @@ def assemble_model(model_id):
         for j in range(1, model_id):
             patch_txt = open('model%d_from%d.txt' % (j+1, j)).read()
             model_txt = apply_patch(model_txt, patch_txt)
-        print model_txt
+        print('Reading model %d text:' % model_id)
+        print(model_txt)
         # Process model text and save result EKB XML
         tp = trips.process_text(model_txt, model_name + '.xml')
 
+    print('Assembling statements:')
+    for i, st in enumerate(tp.statements):
+        print('%d: %s' % (i, st))
     # Assemble the PySB model
     pa = PysbAssembler()
     pa.add_statements(tp.statements)
@@ -46,20 +51,20 @@ def assemble_model(model_id):
 
     # Set initial conditions
     erk = model.monomers['MAPK1']
-    obs = Observable('ERK_p', erk(phospho='p'))
+    obs = Observable(b'ERK_p', erk(phospho='p'))
     model.add_component(obs)
     vem = model.monomers['VEMURAFENIB']
-    obs = Observable('Vem_free', vem(braf=None))
+    obs = Observable(b'Vem_free', vem(map3k=None))
     model.add_component(obs)
     ras = model.monomers['NRAS']
-    obs = Observable('RAS_active', ras(gtp=ANY))
+    obs = Observable(b'RAS_active', ras(gtp=ANY))
     model.add_component(obs)
     braf = model.monomers['BRAF']
-    obs = Observable('BRAF_active', braf(vemurafenib=None))
+    obs = Observable(b'BRAF_active', braf(vemurafenib=None))
     model.add_component(obs)
-    model.parameters['BRAF_0'].value = 0
+    model.parameters[b'BRAF_0'].value = 0
     egf = model.monomers['EGF']
-    obs = Observable('EGF_free', egf(egfr=None))
+    obs = Observable(b'EGF_free', egf(erbb=None))
     model.add_component(obs)
 
     # Add mutated form of BRAF as initial condition
@@ -94,16 +99,16 @@ def assemble_model(model_id):
 
     model.parameters['kf_bm_bind_1'].value = 1
     model.parameters['kr_bm_bind_1'].value = 0.1
-    model.parameters['kc_bm_phos_1'].value = 3
+    model.parameters['kc_bm_phosphorylation_1'].value = 3
     model.parameters['kf_pm_bind_1'].value = 1
     model.parameters['kr_pm_bind_1'].value = 0.001
-    model.parameters['kc_pm_dephos_1'].value = 10
+    model.parameters['kc_pm_dephosphorylation_1'].value = 10
     model.parameters['kf_mm_bind_1'].value = 1
     model.parameters['kr_mm_bind_1'].value = 0.1
-    model.parameters['kc_mm_phos_1'].value = 10
+    model.parameters['kc_mm_phosphorylation_1'].value = 10
     model.parameters['kf_dm_bind_1'].value = 1
     model.parameters['kr_dm_bind_1'].value = 0.001
-    model.parameters['kc_dm_dephos_1'].value = 10
+    model.parameters['kc_dm_dephosphorylation_1'].value = 10
 
 
     model.parameters['VEMURAFENIB_0'].value = 0
@@ -119,13 +124,13 @@ def assemble_model(model_id):
     model.parameters['PPP2CA_0'].value = 1e5
 
     if model_id >= 2:
-        model.parameters['lrrc6_0'].value = 1e2
+        model.parameters['PHOSPHATASE_0'].value = 1e2
         model.parameters['kf_ms_bind_1'].value = 1e-05
         model.parameters['kr_ms_bind_1'].value = 1e-04
-        model.parameters['kc_ms_phos_1'].value = 1
-        model.parameters['kf_ls_bind_1'].value = 1
-        model.parameters['kr_ls_bind_1'].value = 0.1
-        model.parameters['kc_ls_dephos_1'].value = 1e-04
+        model.parameters['kc_ms_phosphorylation_1'].value = 1
+        model.parameters['kf_ps_bind_1'].value = 1
+        model.parameters['kr_ps_bind_1'].value = 0.1
+        model.parameters['kc_ps_dephosphorylation_1'].value = 1e-04
 
     if model_id >= 3:
         model.parameters['kf_bb_bind_1'].value = 10

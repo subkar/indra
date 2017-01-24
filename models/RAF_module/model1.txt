@@ -1,4 +1,4 @@
-The receptor tyrosine kinase EGFR binds the growth factor ligand EGF.
+The growth factor ligand EGF binds EGFR.
 The EGFR-EGF complex binds another EGFR-EGF complex.
 The EGFR-EGFR complex binds GRB2.
 EGFR-bound GRB2 binds SOS1.
