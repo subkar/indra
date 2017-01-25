@@ -1,1 +1,1 @@
-> NRAS-bound BRAF binds NRAS-bound BRAF.
+> RAS-bound BRAF V600E binds RAS-bound BRAF V600E.

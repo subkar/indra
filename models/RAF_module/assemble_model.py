@@ -50,13 +50,13 @@ def assemble_model(model_id, reread=False):
     model = pa.make_model(policies='two_step')
 
     # Set initial conditions
-    erk = model.monomers['MAPK1']
+    erk = model.monomers['ERK']
     obs = Observable(b'ERK_p', erk(phospho='p'))
     model.add_component(obs)
     vem = model.monomers['VEMURAFENIB']
     obs = Observable(b'Vem_free', vem(map3k=None))
     model.add_component(obs)
-    ras = model.monomers['NRAS']
+    ras = model.monomers['RAS']
     obs = Observable(b'RAS_active', ras(gtp=ANY))
     model.add_component(obs)
     braf = model.monomers['BRAF']
@@ -87,12 +87,12 @@ def assemble_model(model_id, reread=False):
     model.parameters['kr_eg_bind_1'].value = 0.1
     model.parameters['kf_gs_bind_1'].value = 1
     model.parameters['kr_gs_bind_1'].value = 0.1
-    model.parameters['kf_sn_bind_1'].value = 1
-    model.parameters['kr_sn_bind_1'].value = 50
-    model.parameters['kf_ng_bind_1'].value = 50
-    model.parameters['kr_ng_bind_1'].value = 0.5
-    model.parameters['kf_nb_bind_1'].value = 1
-    model.parameters['kr_nb_bind_1'].value = 0.5
+    model.parameters['kf_sr_bind_1'].value = 1
+    model.parameters['kr_sr_bind_1'].value = 50
+    model.parameters['kf_rg_bind_1'].value = 50
+    model.parameters['kr_rg_bind_1'].value = 0.5
+    model.parameters['kf_rb_bind_1'].value = 1
+    model.parameters['kr_rb_bind_1'].value = 0.5
 
     model.parameters['kf_vb_bind_1'].value = 10
     model.parameters['kr_vb_bind_1'].value = 1
@@ -103,31 +103,31 @@ def assemble_model(model_id, reread=False):
     model.parameters['kf_pm_bind_1'].value = 1
     model.parameters['kr_pm_bind_1'].value = 0.001
     model.parameters['kc_pm_dephosphorylation_1'].value = 10
-    model.parameters['kf_mm_bind_1'].value = 1
-    model.parameters['kr_mm_bind_1'].value = 0.1
-    model.parameters['kc_mm_phosphorylation_1'].value = 10
-    model.parameters['kf_dm_bind_1'].value = 1
-    model.parameters['kr_dm_bind_1'].value = 0.001
-    model.parameters['kc_dm_dephosphorylation_1'].value = 10
+    model.parameters['kf_me_bind_1'].value = 1
+    model.parameters['kr_me_bind_1'].value = 0.1
+    model.parameters['kc_me_phosphorylation_1'].value = 10
+    model.parameters['kf_de_bind_1'].value = 1
+    model.parameters['kr_de_bind_1'].value = 0.001
+    model.parameters['kc_de_dephosphorylation_1'].value = 10
 
 
     model.parameters['VEMURAFENIB_0'].value = 0
     model.parameters['EGF_0'].value = 1e3
     model.parameters['EGFR_0'].value = 1e5
-    model.parameters['SOS1_0'].value = 1e3
+    model.parameters['SOS_0'].value = 1e3
     model.parameters['GRB2_0'].value = 1e5
-    model.parameters['NRAS_0'].value = 2e5
+    model.parameters['RAS_0'].value = 2e5
     model.parameters['GTP_0'].value = 1e7
-    model.parameters['MAP2K1_0'].value = 1e5
-    model.parameters['MAPK1_0'].value = 1e5
+    model.parameters['MEK_0'].value = 1e5
+    model.parameters['ERK_0'].value = 1e5
     model.parameters['DUSP6_0'].value = 1e3
     model.parameters['PPP2CA_0'].value = 1e5
 
     if model_id >= 2:
         model.parameters['PHOSPHATASE_0'].value = 1e2
-        model.parameters['kf_ms_bind_1'].value = 1e-05
-        model.parameters['kr_ms_bind_1'].value = 1e-04
-        model.parameters['kc_ms_phosphorylation_1'].value = 1
+        model.parameters['kf_es_bind_1'].value = 1e-05
+        model.parameters['kr_es_bind_1'].value = 1e-04
+        model.parameters['kc_es_phosphorylation_1'].value = 1
         model.parameters['kf_ps_bind_1'].value = 1
         model.parameters['kr_ps_bind_1'].value = 0.1
         model.parameters['kc_ps_dephosphorylation_1'].value = 1e-04
